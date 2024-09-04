@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:todo_app/firebase/firebase_Utils.dart';
 
 import 'ThemeData/ThemeData.dart';
+import 'firebase/Model.dart';
 
 class AddTaskBottomSheet extends StatefulWidget {
   const AddTaskBottomSheet({super.key});
@@ -14,8 +16,8 @@ class AddTaskBottomSheet extends StatefulWidget {
 class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
   var selectedDate = DateTime.now();
   final _formKey = GlobalKey<FormState>();
-  String title="";
-  String description="";
+  String title = "";
+  String description = "";
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +43,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                   padding: const EdgeInsets.all(10.0),
                   child: TextFormField(
                     onChanged: (text) {
-                      title=text;
+                      title = text;
                     },
                     validator: (text) {
                       if (text == null || text.isEmpty) {
@@ -56,7 +58,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                   padding: const EdgeInsets.all(10.0),
                   child: TextFormField(
                     onChanged: (text) {
-                      description=text;
+                      description = text;
                     },
                     validator: (text) {
                       if (text == null || text.isEmpty) {
@@ -96,7 +98,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
           ),
         ),
         SizedBox(
-          height: MediaQuery.of(context).size.height*0.010,
+          height: MediaQuery.of(context).size.height * 0.010,
         ),
         Container(
             decoration: BoxDecoration(
@@ -104,7 +106,7 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                 color: my_theme.primaryLightcolor),
             child: InkWell(
               onTap: () {
-                _validate();
+                addTask();
               },
               child: Icon(
                 Icons.check,
@@ -129,7 +131,20 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
     }
   }
 
-  void _validate() {
-    if (_formKey.currentState?.validate() == true) {}
+  void addTask() {
+    if (_formKey.currentState?.validate() == true) {
+      Task task=Task(
+        title: title,
+        description: description,
+        dateTime: selectedDate
+      );
+      firebaseUtils
+          .addTaskToFirestore(task)
+          .timeout(Duration(milliseconds: 500),
+      onTimeout: () {
+        print("task added successfully");
+        Navigator.pop(context);
+      },);
+    }
   }
 }

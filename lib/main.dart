@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'Home_screen.dart';
@@ -10,7 +11,12 @@ void main()async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await FirebaseFirestore.instance.disableNetwork();
+  // The default value is 40 MB. The threshold must be set to at least 1 MB,
+// and can be set to Settings.CACHE_SIZE_UNLIMITED to disable garbage collection.
 
+  FirebaseFirestore.instance.settings =
+      Settings(cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED);
   runApp(const MyApp());
 }
 
