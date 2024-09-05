@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'Home_screen.dart';
 import 'Splash_screen.dart';
 import 'ThemeData/ThemeData.dart';
-import 'firebase_options.dart';
+import 'firebase/firebase_options.dart';
 
 void main()async {
   WidgetsFlutterBinding.ensureInitialized();

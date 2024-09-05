@@ -107,6 +107,9 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
             child: InkWell(
               onTap: () {
                 addTask();
+                setState(() {
+
+                });
               },
               child: Icon(
                 Icons.check,
@@ -146,5 +149,6 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
         Navigator.pop(context);
       },);
     }
+
   }
 }

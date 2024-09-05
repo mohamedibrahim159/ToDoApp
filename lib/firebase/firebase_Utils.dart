@@ -18,5 +18,4 @@ class firebaseUtils {
     return taskDocRef.set(task);
 
   }
-
 }

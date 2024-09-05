@@ -36,16 +36,17 @@ class _homeScreenState extends State<homeScreen> {
           BottomNavigationBarItem(
               label: "",
               icon: ImageIcon(AssetImage("assets/images/icon_list.png"),
-                  size: 24)),
+                  size: 25)),
           BottomNavigationBarItem(
               label: "",
               icon: ImageIcon(
                 AssetImage("assets/images/icon_settings.png"),
-                size: 24,
+                size: 25,
               ))
         ],
       ),
       floatingActionButton: FloatingActionButton(
+
         elevation: 0,
         backgroundColor: my_theme.primaryLightcolor,
         shape: StadiumBorder(side: BorderSide(color: Colors.white, width: 6)),
@@ -55,8 +56,10 @@ class _homeScreenState extends State<homeScreen> {
         },
         child: Icon(
           Icons.add,
-          size: 30,
+          size: 40,
+          color: my_theme.whitecolor,
         ),
+
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       body:tabs[selectedindex] ,
