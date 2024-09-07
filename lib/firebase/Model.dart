@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Task {
   static const String collectionName = "tasks";
   String? id;
@@ -18,7 +20,7 @@ class Task {
       id : data['id'] as String,
       title : data['title'] as String,
       description : data['description'] as String,
-      dateTime : DateTime.fromMicrosecondsSinceEpoch(data['dateTime']),
+      dateTime : (data['dateTime'] as Timestamp).toDate(),
       isDone: data['isDone']
   );
 
@@ -27,7 +29,7 @@ class Task {
       'id': id,
       'title': title,
       'description': description,
-      'dateTime': dateTime,
+      'dateTime': Timestamp.fromDate(dateTime!),
       'isDone': isDone,
 
     };

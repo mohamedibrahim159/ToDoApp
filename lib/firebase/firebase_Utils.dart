@@ -11,10 +11,17 @@ class firebaseUtils {
       , toFirestore: (task, options) => task.tofirestore(),
     );
   }
+
+  static Stream<QuerySnapshot<Task>> getTasks() {
+    return getTaskcollection()
+        .orderBy("title")
+        .snapshots();
+  }
+
   static Future<void>addTaskToFirestore(Task task){
     var taskcollectionRef=getTaskcollection();
     DocumentReference<Task>taskDocRef=taskcollectionRef.doc();
-    task.id=taskcollectionRef.id;
+    task.id=taskDocRef.id;
     return taskDocRef.set(task);
 
   }

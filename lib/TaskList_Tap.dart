@@ -38,11 +38,40 @@ class _taskListTapState extends State<taskListTap> {
           locale: 'en_ISO',
         ),
         Expanded(
-          child: ListView.builder(
-            itemBuilder: (context, index) {
-              return taskListitem(task: taskslist[index]);
-            },
-            itemCount: taskslist.length,
+          child: StreamBuilder(
+            stream: firebaseUtils.getTasks(),
+            builder: (context, snapshot) {
+              // if (snapshot.connectionState == ConnectionState.waiting) {
+              //   return Center(
+              //     child: CircularProgressIndicator(),
+              //   );
+              // }
+              if (snapshot.hasError) {
+                return Column(
+                  children: [
+                    Text(snapshot.error.toString()),
+                    ElevatedButton(onPressed: () {}, child: Text("Try Again"))
+                  ],
+                );
+              }
+              List<Task> tasks =
+                  snapshot.data?.docs.map((e) => e.data()).toList() ?? [];
+
+              if (tasks.isEmpty) {
+                return Text("No Tasks");
+              }
+              return ListView.separated(
+                itemBuilder: (context, index) {
+                  return taskListitem(task: taskslist[index]);
+                },
+                separatorBuilder: (context, index) {
+                  return SizedBox(
+                    height: 10,
+                  );
+                },
+                itemCount: taskslist.length,
+              );
+            }
           ),
         )
       ],
